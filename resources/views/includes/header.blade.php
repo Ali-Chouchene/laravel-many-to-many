@@ -2,7 +2,7 @@
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
 
-            <img height='80px' width='80px' class="img-fluid rounded-circle" src="{{asset('storage/ali.jfif')}}" alt="">
+            <img height='80px' width='80px' class="img-fluid rounded-circle" src="{{asset('storage/project/ali.jpg')}}" alt="">
 
             {{-- config('app.name', 'Laravel') --}}
         </a>

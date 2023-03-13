@@ -4,7 +4,7 @@
 
 <div class="container">
     <h1 class="mt-4">My Projects</h1>
-    <a class="btn btn-success" href="{{route('admin.projects.create')}}">Create Project</a>
+    <a class="btn btn-success my-3" href="{{route('admin.projects.create')}}">Create Project</a>
     @foreach($projects as $project)
     <div class=" d-flex flex-column align-items-center">
         <div class="card d-flex flex-column align-items-center my-3 p-5 text-center" style="width: 60%;">

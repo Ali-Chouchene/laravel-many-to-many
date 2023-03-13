@@ -4,7 +4,7 @@
 
 <div class="container">
     <h1 class="mt-4">My Projects</h1>
-    <a class="btn btn-success" href="{{route('admin.types.create')}}">Create Type</a>
+    <a class="btn btn-success my-3" href="{{route('admin.types.create')}}">Create Type</a>
     <table class="table">
         <thead>
             <tr>
