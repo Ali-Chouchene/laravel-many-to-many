@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -27,9 +28,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $techs = Technology::all();
         $project = new Project();
         $types = Type::orderBy('type')->get();
-        return view('admin.projects.create', compact('project', 'types'));
+        return view('admin.projects.create', compact('project', 'types', 'techs'));
     }
 
     /**
@@ -37,12 +39,14 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required|string|unique:projects|max:60',
             'description' => 'required|string|min:30',
             'image' => 'nullable|image|mimes:jpeg,jpg,png,webp,jfif',
             'link' => 'required|url|unique:projects',
-            'type_id' => 'nullable|exists:types,id'
+            'type_id' => 'nullable|exists:types,id',
+            'techs' => 'nullable|exists:technologies,id'
         ], [
             'name.required' => 'Project name is required',
             'name.unique' => "$request->name name is already taken",
@@ -54,8 +58,8 @@ class ProjectController extends Controller
             'link.required' => 'Project link is required',
             'link.url' => 'The link must be an URL',
             'link.unique' => "The project Link exist already",
-            'type_id' => 'The type dosen\'t exist'
-
+            'type_id' => 'The type dosen\'t exist',
+            'techs' => 'The selected technologies aren\'t correct'
         ]);
 
 
@@ -68,6 +72,8 @@ class ProjectController extends Controller
         $project->fill($data);
         $project->status = Arr::exists($data, 'status');
         $project->save();
+
+        if (Arr::exists($data, 'techs')) $project->technologies()->attach($data['techs']);
         return to_route('admin.projects.show', $project->id);
     }
 
@@ -84,9 +90,11 @@ class ProjectController extends Controller
      */
     public function edit(string $id)
     {
+        $techs = Technology::all();
         $types = Type::orderBy('type')->get();
         $project = Project::findOrFail($id);
-        return view('admin.projects.edit', compact('project', 'types'));
+        $project_techs = $project->technologies->pluck('id')->toArray();
+        return view('admin.projects.edit', compact('project', 'types', 'techs', 'project_techs'));
     }
 
     /**
@@ -98,7 +106,8 @@ class ProjectController extends Controller
             'name' => ['required', 'string', Rule::unique('projects')->ignore($project->id), 'max:60'],
             'description' => 'required|string|min:30',
             'image' => 'nullable|image|mimes:jpeg,jpg,png,webp,jfif',
-            'link' => ['required', 'url', Rule::unique('projects')->ignore($project->id)]
+            'link' => ['required', 'url', Rule::unique('projects')->ignore($project->id)],
+            'techs' => 'nullable|exists:technologies,id'
         ], [
             'name.required' => 'Project name is required',
             'name.unique' => "$request->name name is already taken",
@@ -110,6 +119,7 @@ class ProjectController extends Controller
             'link.required' => 'Project link is required',
             'link.url' => 'The link must be an URL',
             'link.unique' => "The project Link exist already",
+            'techs' => 'The selected technologies aren\'t correct'
 
         ]);
 
@@ -124,7 +134,8 @@ class ProjectController extends Controller
         $project->fill($data);
         $project->status = Arr::exists($data, 'status');
         $project->save();
-
+        if (Arr::exists($data, 'techs')) $project->technologies()->sync($data['techs']);
+        else $project->technologies()->detach();
         return redirect()->route('admin.projects.show', $project->id);
     }
 
@@ -133,6 +144,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if (count($project->technologies)) $project->technologies()->detach();
         $project->delete();
 
         return redirect()->route('admin.projects.index');

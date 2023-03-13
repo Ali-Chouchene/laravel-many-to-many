@@ -18,6 +18,21 @@
                 </h3>
                 <p><strong>Category:</strong> {{$project->type?->type}} - <strong>Created At:</strong> {{$project->created_at}} - <strong>Project Status:</strong> {{$project->status ? 'Public' : 'Private'}}</p>
             </div>
+            <div class="w-100 d-flex flex-column align-items-center">
+                <div class="">
+                    <h3 class="text-center my-3">
+                        Technologies Details
+                    </h3>
+                </div>
+
+                <div class="d-flex justify-content-around w-50 my-4">
+                    @foreach($project->technologies as $tech)
+                    <h3><span class="badge" style="background-color:{{$tech->color}};">{{$tech->name}}</span></h3>
+                    @endforeach
+                </div>
+
+
+            </div>
             <div class="d-flex my-3  justify-content-around align-items-end w-50">
                 <a href="{{route('admin.projects.edit', $project->id)}}" class="btn btn-warning text-light px-4"><i class="fa-solid fa-pen-to-square fa-xl me-2"></i>Edit</a>
                 <form action="{{route('admin.projects.destroy', $project->id)}}" class="mx3" method="POST">

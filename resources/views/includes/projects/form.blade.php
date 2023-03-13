@@ -1,5 +1,5 @@
 @if($project->exists)
-<form class="w-75" action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
+<form class="w-75" action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data" novalidate>
     @method('PUT')
     @else
     <form class="w-75" action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
@@ -7,7 +7,7 @@
         @csrf
         <div class="mb-3 w-50">
             <label for="name" class="form-label">Project Name</label>
-            <input required type="text" maxlength="60" class="form-control" id="name" aria-describedby="name" name="name" value="{{ old('name', $project->name) }}">
+            <input type="text" maxlength="60" class="form-control" id="name" aria-describedby="name" name="name" value="{{ old('name', $project->name) }}">
             <div id="name" class="form-text">Here you can wrigth the project name</div>
         </div>
         <div class="mb-3 row align-items-center">
@@ -25,12 +25,12 @@
         </div>
         <div class="mb-3 w-50">
             <label for="link" class="form-label">Link</label>
-            <input required type="text" class="form-control" id="link" name="link" value="{{ old('link', $project->link) }}">
+            <input type="text" class="form-control" id="link" name="link" value="{{ old('link', $project->link) }}">
             <div id="link" class="form-text">Here you can wrigth the project link</div>
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea required minlength="30" class="form-control" id="description" rows="5" name="description">{{old('description', $project->description)}}</textarea>
+            <textarea minlength="30" class="form-control" id="description" rows="5" name="description">{{old('description', $project->description)}}</textarea>
         </div>
         <div class="row">
             <div class="col-4">
@@ -42,11 +42,19 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-6 d-flex align-items-center justify-content-center ms-3">
+            <div class="col-4 d-flex align-items-center justify-content-center ">
                 <div class="form-check form-switch">
                     <input class="form-check-input px-4 py-2" type="checkbox" role="switch" id="status" name="status" @if(old('status' , $project->status)) checked @endif>
                     <label class="form-check-label ms-3" for="status">Public</label>
                 </div>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-center ">
+                @foreach($techs as $tech)
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="tech-{{$loop->iteration}}" value="{{$tech->id}}" name="techs[]" @if(in_array($tech->id, old('techs', $project_techs ?? []))) checked @endif>
+                    <label class="form-check-label" for="tech-{{$loop->iteration}}">{{$tech->name}}</label>
+                </div>
+                @endforeach
             </div>
         </div>
         <button type="submit" class="btn btn-primary my-3">Save</button>
