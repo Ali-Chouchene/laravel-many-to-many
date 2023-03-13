@@ -1,0 +1,26 @@
+#welcome {
+    background-image: url(../../public/storage/project/bg.jpg);
+    object-fit: cover;
+    margin: 0;
+    height: 90vh;
+    width: 100vw;
+
+    i {
+        color: black;
+
+        &:hover {
+            color: blue;
+        }
+    }
+
+    .btn-blue {
+        background-color: rgb(71, 68, 255);
+        color: white;
+        padding: 7px 1rem;
+
+        &:hover {
+            background-color: rgb(57, 56, 139);
+        }
+    }
+
+}
