@@ -5,11 +5,17 @@
 <div class="container">
     <h1 class="mt-4">{{$project->name}}</h1>
     <div class=" d-flex  justify-content-center">
-        <div class="card d-flex flex-column align-items-center my-1 p-5" style="width: 80%;">
+        <div class="card d-flex flex-column align-items-center my-1" style="width: 80%;">
             <div>
-                <div class="my-3">
-                    <img src="{{asset('storage/' . $project->image)}}" class="card-img-top img-fluid float-start mx-2" alt="{{$project->name}}" style="width: 60%; height: 30rem;">
-                    <p class="card-text my-4">{{$project->description}}</p>
+                <div class="">
+                    <img src="{{asset('storage/' . $project->image)}}" class="card-img-top img-fluid" alt="{{$project->name}}">
+                    <h4 class="card-text my-4 text-center px-5">{{$project->description}}</h4>
+                </div>
+                <div class="text-center my-3">
+                    <h3>More Here</h3>
+                    <a href="{{$project->link}}">
+                        <i class="fa-brands fa-github fa-2xl "></i>
+                    </a>
                 </div>
             </div>
             <div>
@@ -27,7 +33,7 @@
 
                 <div class="d-flex justify-content-around w-50 my-4">
                     @foreach($project->technologies as $tech)
-                    <h3><span class="badge" style="background-color:{{$tech->color}};">{{$tech->name}}</span></h3>
+                    <h5><span class="badge" style="background-color:{{$tech->color}};">{{$tech->name}}</span></h5>
                     @endforeach
                 </div>
 

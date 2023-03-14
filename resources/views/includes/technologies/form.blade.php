@@ -7,7 +7,7 @@
         @csrf
         <div class="mb-3 w-50">
             <label for="tech" class="form-label">Technology Name</label>
-            <input required type="text" maxlength="60" class="form-control" id="tech" aria-describedby="tech" name="tech" value="{{ old('name', $tech->name) }}">
+            <input type="text" class="form-control" id="tech" aria-describedby="tech" name="name" value="{{ old('name', $tech->name) }}">
             <div id="tech" class="form-text">Here you can wrigth the technology name</div>
         </div>
         <div class="mb-3 row align-items-center">

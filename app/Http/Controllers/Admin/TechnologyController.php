@@ -33,12 +33,11 @@ class TechnologyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string||unique:types|max:20',
+            'name' => 'required|string||unique:name',
             'color' => 'nullable',
         ], [
             'name.required' => 'Technology name is required',
             'name.unique' => "$request->name is already taken",
-            'name.max' => 'The name max length is 20 characters',
         ]);
 
 
@@ -73,12 +72,12 @@ class TechnologyController extends Controller
     public function update(Request $request, Technology $tech)
     {
         $request->validate([
-            'name' => ['required', 'string', Rule::unique('name')->ignore($tech->id), 'max:20'],
+            'name' => ['required', 'string', Rule::unique('name')->ignore($tech->id)],
             'color' => 'nullable',
         ], [
             'name.required' => 'Technology name is required',
             'name.unique' => "$request->name is already taken",
-            'name.max' => 'The technology name max length is 20 characters',
+
         ]);
 
 
