@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Page Icon -->
-    <link rel="icon" type="image/x-icon" href="../img/ali.jfif">
+    <link rel="icon" type="image/x-icon" href="{{asset('storage/project/alicv.png')}}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

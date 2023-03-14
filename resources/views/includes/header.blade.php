@@ -29,6 +29,11 @@
                         <h4>{{ __('Types') }}</h4>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('admin.technologies.index') }}">
+                        <h4>{{ __('Technologies') }}</h4>
+                    </a>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
