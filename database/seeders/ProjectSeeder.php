@@ -19,7 +19,7 @@ class ProjectSeeder extends Seeder
         $type_ids = Type::select('id')->pluck('id')->toArray();
         $type_ids[] = null;
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 0; $i++) {
             $project = new Project();
             $project->type_id = Arr::random($type_ids);
             $project->status = $faker->boolean();

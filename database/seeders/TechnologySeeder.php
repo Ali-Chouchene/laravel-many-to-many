@@ -14,7 +14,7 @@ class TechnologySeeder extends Seeder
      */
     public function run(Faker $faker): void
     {
-        $types = ['HTML', 'CSS', 'JS', 'VUE', 'PHP'];
+        $types = ['HTML', 'CSS', 'JS', 'VUE', 'PHP', 'SCSS'];
 
         foreach ($types as $type) {
             $tech = new Technology();

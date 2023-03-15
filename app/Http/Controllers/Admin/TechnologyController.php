@@ -33,11 +33,11 @@ class TechnologyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string||unique:name',
+            'name' => 'required|string||unique:technologies',
             'color' => 'nullable',
         ], [
             'name.required' => 'Technology name is required',
-            'name.unique' => "$request->name is already taken",
+            'name.unique' => "Technology name is already taken",
         ]);
 
 
@@ -69,23 +69,25 @@ class TechnologyController extends Controller
     /**
      * Update the specified resource in storage.0
      */
-    public function update(Request $request, Technology $tech)
+    public function update(Request $request, string $id)
     {
+        $tech = Technology::findOrFail($id);
         $request->validate([
-            'name' => ['required', 'string', Rule::unique('name')->ignore($tech->id)],
+            'name' => ['required', 'string', Rule::unique('technologies')->ignore($tech->id), 'max:20'],
             'color' => 'nullable',
         ], [
             'name.required' => 'Technology name is required',
-            'name.unique' => "$request->name is already taken",
+            'name.unique' => "Technology name is already taken",
+            'name.max' => 'Technology name max length is 20 characters',
 
         ]);
 
 
         $data = $request->all();
 
-        $tech->fill($data);
+        $tech->update($data);
 
-        $tech->save();
+
 
         return redirect()->route('admin.technologies.index');
     }
@@ -93,8 +95,9 @@ class TechnologyController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Technology $tech)
+    public function destroy(string $id)
     {
+        $tech = Technology::findOrFail($id);
         $tech->delete();
 
         return redirect()->route('admin.technologies.index');
